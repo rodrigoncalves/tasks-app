@@ -10,11 +10,22 @@ import {
 } from 'react-native'
 import commonStyles from '../commonStyles'
 
-const initialState = {desc: ''}
+import DateTimePicker from '@react-native-community/datetimepicker'
+
+const initialState = {desc: '', date: new Date()}
 
 export default class AddTask extends Component {
   state = {...initialState}
 
+  getDateTimePicker = () => {
+    return (
+      <DateTimePicker
+        value={this.state.date}
+        onChange={(_, date) => this.setState({date})}
+        mode="date"
+      />
+    )
+  }
   render() {
     return (
       <Modal
@@ -42,6 +53,7 @@ export default class AddTask extends Component {
             </TouchableOpacity>
           </View>
         </View>
+        {this.getDateTimePicker()}
         <TouchableWithoutFeedback onPress={this.props.onCancel}>
           <View style={styles.background} />
         </TouchableWithoutFeedback>
