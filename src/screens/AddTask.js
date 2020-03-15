@@ -20,6 +20,16 @@ import moment from 'moment'
 export default class AddTask extends Component {
   state = {...initialState}
 
+  save = () => {
+    const newTask = {
+      desc: this.state.desc,
+      date: this.state.date,
+    }
+
+    this.props.onSave && this.props.onSave(newTask)
+    this.setState({...initialState})
+  }
+
   getDateTimePicker = () => {
     let datePicker = (
       <DateTimePicker
@@ -29,9 +39,7 @@ export default class AddTask extends Component {
       />
     )
 
-    const dateString = moment(this.state.date).format(
-      'ddd, DD [de] MMMM [de] YYYY',
-    )
+    const dateString = moment(this.state.date).format('ddd, DD/MM/YYYY')
 
     if (Platform.OS === 'android') {
       datePicker = (
@@ -47,6 +55,7 @@ export default class AddTask extends Component {
 
     return datePicker
   }
+
   render() {
     return (
       <Modal
@@ -70,7 +79,7 @@ export default class AddTask extends Component {
             <TouchableOpacity onPress={this.props.onCancel}>
               <Text style={styles.button}>Cancelar</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this.save}>
               <Text style={styles.button}>OK</Text>
             </TouchableOpacity>
           </View>

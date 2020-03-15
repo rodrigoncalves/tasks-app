@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
   Platform,
+  Alert,
 } from 'react-native'
 
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -73,6 +74,23 @@ export default class TaskList extends Component {
     this.setState({tasks}, this.filterTasks)
   }
 
+  addTask = task => {
+    if (!task.desc || !task.desc.trim()) {
+      Alert.alert('Dados inválidos', 'Descrição não informada.')
+      return
+    }
+
+    const tasks = [...this.state.tasks]
+    tasks.push({
+      id: Math.random(),
+      desc: task.desc,
+      estimatedAt: task.date,
+      doneAt: null,
+    })
+
+    this.setState({tasks, showAddTask: false}, this.filterTasks)
+  }
+
   render() {
     const today = moment()
       .locale('pt-br')
@@ -82,6 +100,7 @@ export default class TaskList extends Component {
         <AddTask
           isVisible={this.state.showAddTask}
           onCancel={() => this.setState({showAddTask: false})}
+          onSave={this.addTask}
         />
         <ImageBackground source={todayImage} style={styles.background}>
           <View style={styles.iconBar}>
