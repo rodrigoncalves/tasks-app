@@ -80,7 +80,7 @@ export default class AddTask extends Component {
               <Text style={styles.button}>Cancelar</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={this.save}>
-              <Text style={styles.button}>OK</Text>
+              <Text style={styles.button}>Salvar</Text>
             </TouchableOpacity>
           </View>
         </View>
