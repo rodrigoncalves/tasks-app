@@ -1,12 +1,5 @@
 import React, {Component} from 'react'
-import {
-  ImageBackground,
-  Text,
-  StyleSheet,
-  View,
-  Platform,
-  Alert,
-} from 'react-native'
+import {ImageBackground, Text, StyleSheet, View, Platform} from 'react-native'
 
 import bgImage from '../../assets/imgs/login.jpg'
 import commonStyles from '../commonStyles'
@@ -68,6 +61,17 @@ export default class Login extends Component {
   }
 
   render() {
+    const validations = []
+    validations.push(this.state.email && this.state.email.includes('@'))
+    validations.push(this.state.password && this.state.password.length >= 6)
+
+    if (this.state.registerPage) {
+      validations.push(this.state.name && this.state.name.trim().length >= 3)
+      validations.push(this.state.password === this.state.confirmPassword)
+    }
+
+    const validForm = validations.reduce((a, b) => a && b)
+
     return (
       <ImageBackground source={bgImage} style={styles.background}>
         <Text style={styles.title}>Tasks</Text>
@@ -111,8 +115,12 @@ export default class Login extends Component {
               onChangeText={confirmPassword => this.setState({confirmPassword})}
             />
           )}
-          <TouchableOpacity onPress={this.signinOrSignup}>
-            <View style={styles.button}>
+          <TouchableOpacity onPress={this.signinOrSignup} disabled={!validForm}>
+            <View
+              style={[
+                styles.button,
+                validForm ? {} : {backgroundColor: '#8a8'},
+              ]}>
               <Text style={styles.buttonText}>
                 {this.state.registerPage ? 'Registrar' : 'Entrar '}
               </Text>
