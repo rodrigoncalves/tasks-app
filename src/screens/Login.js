@@ -9,6 +9,9 @@ export default class Login extends Component {
   state = {
     email: '',
     password: '',
+    name: '',
+    confirmPassword: '',
+    registerStage: true,
   }
 
   render() {
@@ -16,6 +19,21 @@ export default class Login extends Component {
       <ImageBackground source={bgImage} style={styles.background}>
         <Text style={styles.title}>Tasks</Text>
         <View style={styles.form}>
+          <Text style={styles.subtitle}>
+            {this.state.registerStage
+              ? 'Crie a sua conta'
+              : 'Informe seus dados'}
+          </Text>
+
+          {this.state.registerStage && (
+            <TextInput
+              placeholder="Nome"
+              value={this.state.name}
+              style={styles.input}
+              onChangeText={name => this.setState({name})}
+            />
+          )}
+
           <TextInput
             placeholder="E-mail"
             value={this.state.email}
@@ -26,11 +44,23 @@ export default class Login extends Component {
             placeholder="Senha"
             value={this.state.password}
             style={styles.input}
+            secureTextEntry={true}
             onChangeText={password => this.setState({password})}
           />
+          {this.state.registerStage && (
+            <TextInput
+              placeholder="Confirmação de senha"
+              value={this.state.confirmPassword}
+              style={styles.input}
+              secureTextEntry={true}
+              onChangeText={confirmPassword => this.setState({confirmPassword})}
+            />
+          )}
           <TouchableOpacity>
             <View style={styles.button}>
-              <Text style={styles.buttonText}>Entrar</Text>
+              <Text style={styles.buttonText}>
+                {this.state.registerStage ? 'Registrar' : 'Entrar '}
+              </Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -50,6 +80,13 @@ const styles = StyleSheet.create({
     fontFamily: commonStyles.fontFamily,
     color: commonStyles.colors.secondary,
     fontSize: 70,
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontFamily: commonStyles.fontFamily,
+    fontSize: 20,
+    color: 'white',
+    textAlign: 'center',
     marginBottom: 10,
   },
   form: {
