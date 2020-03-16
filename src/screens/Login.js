@@ -12,21 +12,43 @@ import bgImage from '../../assets/imgs/login.jpg'
 import commonStyles from '../commonStyles'
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import LoginInput from '../components/LoginInput'
+import Axios from 'axios'
+import {server, showError, showSuccess} from '../common'
+
+const initialState = {
+  email: '',
+  password: '',
+  name: '',
+  confirmPassword: '',
+  registerPage: false,
+}
 
 export default class Login extends Component {
   state = {
-    email: '',
-    password: '',
-    name: '',
-    confirmPassword: '',
-    registerPage: false,
+    ...initialState,
   }
 
   signinOrSignup = () => {
     if (this.state.registerPage) {
-      Alert.alert('Sucesso', 'Criar conta')
+      this.signUp()
     } else {
       Alert.alert('Sucesso', 'Logar')
+    }
+  }
+
+  signUp = async () => {
+    try {
+      await Axios.post(`${server}/signup`, {
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password,
+        confirmPassword: this.state.confirmPassword,
+      })
+
+      showSuccess('Usuário cadastrado!')
+      this.setState({...initialState})
+    } catch (e) {
+      showError(e)
     }
   }
 
@@ -40,7 +62,6 @@ export default class Login extends Component {
               ? 'Crie a sua conta'
               : 'Informe seus dados'}
           </Text>
-
           {this.state.registerPage && (
             <LoginInput
               icon="user"
@@ -50,7 +71,6 @@ export default class Login extends Component {
               onChangeText={name => this.setState({name})}
             />
           )}
-
           <LoginInput
             icon="at"
             placeholder="E-mail"
@@ -87,12 +107,12 @@ export default class Login extends Component {
         <TouchableOpacity
           style={{padding: 10}}
           onPress={() =>
-            this.setState({registerStage: !this.state.registerPage})
+            this.setState({registerPage: !this.state.registerPage})
           }>
           <Text style={styles.buttonText}>
             {this.state.registerPage
               ? 'Já possuo uma conta'
-              : 'Ainda não possuo conta'}
+              : 'Ainda não possui conta?'}
           </Text>
         </TouchableOpacity>
       </ImageBackground>
