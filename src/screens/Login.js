@@ -10,7 +10,8 @@ import {
 
 import bgImage from '../../assets/imgs/login.jpg'
 import commonStyles from '../commonStyles'
-import {TextInput, TouchableOpacity} from 'react-native-gesture-handler'
+import {TouchableOpacity} from 'react-native-gesture-handler'
+import LoginInput from '../components/LoginInput'
 
 export default class Login extends Component {
   state = {
@@ -18,11 +19,11 @@ export default class Login extends Component {
     password: '',
     name: '',
     confirmPassword: '',
-    registerStage: false,
+    registerPage: false,
   }
 
   signinOrSignup = () => {
-    if (this.state.registerStage) {
+    if (this.state.registerPage) {
       Alert.alert('Sucesso', 'Criar conta')
     } else {
       Alert.alert('Sucesso', 'Logar')
@@ -35,13 +36,14 @@ export default class Login extends Component {
         <Text style={styles.title}>Tasks</Text>
         <View style={styles.form}>
           <Text style={styles.subtitle}>
-            {this.state.registerStage
+            {this.state.registerPage
               ? 'Crie a sua conta'
               : 'Informe seus dados'}
           </Text>
 
-          {this.state.registerStage && (
-            <TextInput
+          {this.state.registerPage && (
+            <LoginInput
+              icon="user"
               placeholder="Nome"
               value={this.state.name}
               style={styles.input}
@@ -49,21 +51,24 @@ export default class Login extends Component {
             />
           )}
 
-          <TextInput
+          <LoginInput
+            icon="at"
             placeholder="E-mail"
             value={this.state.email}
             style={styles.input}
             onChangeText={email => this.setState({email})}
           />
-          <TextInput
+          <LoginInput
+            icon="lock"
             placeholder="Senha"
             value={this.state.password}
             style={styles.input}
             secureTextEntry={true}
             onChangeText={password => this.setState({password})}
           />
-          {this.state.registerStage && (
-            <TextInput
+          {this.state.registerPage && (
+            <LoginInput
+              icon="asterisk"
               placeholder="Confirmação de senha"
               value={this.state.confirmPassword}
               style={styles.input}
@@ -74,7 +79,7 @@ export default class Login extends Component {
           <TouchableOpacity onPress={this.signinOrSignup}>
             <View style={styles.button}>
               <Text style={styles.buttonText}>
-                {this.state.registerStage ? 'Registrar' : 'Entrar '}
+                {this.state.registerPage ? 'Registrar' : 'Entrar '}
               </Text>
             </View>
           </TouchableOpacity>
@@ -82,10 +87,10 @@ export default class Login extends Component {
         <TouchableOpacity
           style={{padding: 10}}
           onPress={() =>
-            this.setState({registerStage: !this.state.registerStage})
+            this.setState({registerStage: !this.state.registerPage})
           }>
           <Text style={styles.buttonText}>
-            {this.state.registerStage
+            {this.state.registerPage
               ? 'Já possuo uma conta'
               : 'Ainda não possuo conta'}
           </Text>
@@ -130,6 +135,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 10,
     alignItems: 'center',
+    borderRadius: 7,
   },
   buttonText: {
     fontFamily: commonStyles.fontFamily,
