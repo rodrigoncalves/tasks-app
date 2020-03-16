@@ -32,7 +32,7 @@ export default class Login extends Component {
     if (this.state.registerPage) {
       this.signUp()
     } else {
-      Alert.alert('Sucesso', 'Logar')
+      this.signIn()
     }
   }
 
@@ -47,6 +47,21 @@ export default class Login extends Component {
 
       showSuccess('Usuário cadastrado!')
       this.setState({...initialState})
+    } catch (e) {
+      showError(e)
+    }
+  }
+
+  signIn = async () => {
+    try {
+      const res = await Axios.post(`${server}/signin`, {
+        email: this.state.email,
+        password: this.state.password,
+      })
+
+      Axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`
+
+      this.props.navigation.navigate('Home')
     } catch (e) {
       showError(e)
     }
