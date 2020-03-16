@@ -9,8 +9,8 @@ import Axios from 'axios'
 import {server, showError, showSuccess} from '../common'
 
 const initialState = {
-  email: '',
-  password: '',
+  email: 'rodrigosg2000@gmail.com',
+  password: '123456',
   name: '',
   confirmPassword: '',
   registerPage: false,
