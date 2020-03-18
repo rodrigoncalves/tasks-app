@@ -5,6 +5,7 @@ import {createDrawerNavigator} from 'react-navigation-drawer'
 import Login from './screens/Login'
 import TaskList from './screens/TaskList'
 
+import LoginOrHome from './screens/LoginOrHome'
 import Menu from './screens/Menu'
 import commonStyles from './commonStyles'
 
@@ -58,6 +59,10 @@ const menuRoutes = {
 const menuNavigator = createDrawerNavigator(menuRoutes, menuConfig)
 
 const mainRoutes = {
+  Loading: {
+    name: 'LoginOrHome',
+    screen: LoginOrHome,
+  },
   Login: {
     name: 'Login',
     screen: Login,
@@ -69,7 +74,7 @@ const mainRoutes = {
 }
 
 const mainNavigator = createSwitchNavigator(mainRoutes, {
-  initialRouteName: 'Login',
+  initialRouteName: 'Loading',
 })
 
 export default createAppContainer(mainNavigator)
