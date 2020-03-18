@@ -53,8 +53,7 @@ export default class Login extends Component {
       })
 
       Axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`
-
-      this.props.navigation.navigate('Home')
+      this.props.navigation.navigate('Home', res.data)
     } catch (e) {
       showError(e)
     }
