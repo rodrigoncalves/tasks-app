@@ -7,10 +7,11 @@ import {TouchableOpacity} from 'react-native-gesture-handler'
 import LoginInput from '../components/LoginInput'
 import Axios from 'axios'
 import {server, showError, showSuccess} from '../common'
+import AsyncStorage from '@react-native-community/async-storage'
 
 const initialState = {
-  email: 'rodrigosg2000@gmail.com',
-  password: '123456',
+  email: '',
+  password: '',
   name: '',
   confirmPassword: '',
   registerPage: false,
@@ -52,6 +53,7 @@ export default class Login extends Component {
         password: this.state.password,
       })
 
+      AsyncStorage.setItem('userData', JSON.stringify(res.data))
       Axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`
       this.props.navigation.navigate('Home', res.data)
     } catch (e) {
